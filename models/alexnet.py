@@ -5,6 +5,9 @@ import tensorflow as tf
 
 
 class AlexNetModel(tf.keras.Model):
+    """
+    Este es AlexNet
+    """
     def __init__(self, number_of_classes):
         super(AlexNetModel, self).__init__()
         #define layers which require parameters to be learned

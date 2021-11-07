@@ -26,6 +26,7 @@ class SSearch :
         #loading classifier model
         #model = resnet.ResNet([3,4,6,3],[64,128,256,512], self.configuration.get_number_of_classes(), se_factor = 0)
         model = alexnet.AlexNetModel(self.configuration.get_number_of_classes())
+        print((self.input_shape[0], self.input_shape[1], self.input_shape[2])) # (224, 224, 3)
         input_image = tf.keras.Input((self.input_shape[0], self.input_shape[1], self.input_shape[2]), name = 'input_image', tensor=tf.ones(shape=(1, self.input_shape[0], self.input_shape[1], self.input_shape[2])))     
         #input_image = tf.keras.Input(name = 'input_image', tensor=tf.ones(shape=(self.input_shape[0], self.input_shape[1], self.input_shape[2])))     
         print(input_image)
@@ -34,7 +35,7 @@ class SSearch :
         model.load_weights(self.configuration.get_checkpoint_file(), by_name = True, skip_mismatch = True)
         #create the sim-model with a customized layer    
         #you can change output_layer_name                
-        output_layer_name = 're_lu_6'
+        output_layer_name = 'batch_normalization_6'
         l = model.get_layer(output_layer_name)                
         print(l.input_shape)
         print(l.output_shape)
