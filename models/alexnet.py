@@ -37,7 +37,8 @@ class AlexNetModel(tf.keras.Model):
     def call(self, inputs):
         # input  # [B, 31,31, 1]  # [B, H, W, C]
         #first block
-        x = self.conv_1(inputs) # x es de 29x29   
+        x = inputs
+        x = self.conv_1(x) # x es de 29x29   
         x = self.bn_conv_1(x) # 29x29
         x = self.relu(x) 
         x = self.max_pool(x) # 27 x 27 -> (27+1/2) = 14 x14  
