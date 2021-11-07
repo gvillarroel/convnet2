@@ -75,7 +75,7 @@ if __name__ == '__main__' :
         save_freq = 'epoch',            
         )
     #save_freq = configuration.get_snapshot_steps())                
-    if configuration.get_model_name() == 'SKETCH' :
+    if configuration.get_model_name() == 'ANIMALS' :
         model = alexnet.AlexNetModel(configuration.get_number_of_classes())            
         process_fun = imgproc.process_sketch
     else:

@@ -27,6 +27,7 @@ class SSearch :
         #model = resnet.ResNet([3,4,6,3],[64,128,256,512], self.configuration.get_number_of_classes(), se_factor = 0)
         model = alexnet.AlexNetModel(self.configuration.get_number_of_classes())
         input_image = tf.keras.Input((self.input_shape[0], self.input_shape[1], self.input_shape[2]), name = 'input_image')     
+        print(input_image)
         model(input_image)    
         model.summary()
         model.load_weights(self.configuration.get_checkpoint_file(), by_name = True, skip_mismatch = True)
