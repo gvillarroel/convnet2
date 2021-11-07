@@ -30,6 +30,7 @@ class AlexNetModel(tf.keras.Model):
         self.bn_conv_5 = tf.keras.layers.BatchNormalization()
         self.relu_5 = tf.keras.layers.ReLU();        
         
+        self.flatten = tf.keras.layers.Flatten()
         self.fc6 = tf.keras.layers.Dense(1024, kernel_initializer='he_normal')        
         self.bn_fc_6 = tf.keras.layers.BatchNormalization()
         self.relu_6 = tf.keras.layers.ReLU();        
@@ -67,7 +68,7 @@ class AlexNetModel(tf.keras.Model):
         x = self.relu_5(x)
          
         #last block        
-        x = tf.keras.layers.Flatten()(x) 
+        x = self.flatten(x) 
         x = self.fc6(x) 
         x = self.bn_fc_6(x) 
         x = self.relu_6(x) 
