@@ -23,7 +23,8 @@ class SSearch :
         self.mean_image = np.reshape(self.mean_image, self.input_shape)
        
         #loading classifier model
-        model = resnet.ResNet([3,4,6,3],[64,128,256,512], self.configuration.get_number_of_classes(), se_factor = 0)
+        #model = resnet.ResNet([3,4,6,3],[64,128,256,512], self.configuration.get_number_of_classes(), se_factor = 0)
+        model = alexnet.AlexNetModel(self.configuration.get_number_of_classes())
         input_image = tf.keras.Input((self.input_shape[0], self.input_shape[1], self.input_shape[2]), name = 'input_image')     
         model(input_image)    
         model.summary()
