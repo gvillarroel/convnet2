@@ -35,7 +35,12 @@ class SSearch :
         #create the sim-model with a customized layer    
         #you can change output_layer_name                
         output_layer_name = 'batch_normalization_6'
-        output = model.get_layer(output_layer_name).output                
+        l = model.get_layer(output_layer_name)                
+        print(l.input_shape)
+        print(l.output_shape)
+        print(l.input)
+        print(l.output)
+        output = l.output                
         self.sim_model = tf.keras.Model(model.input, output)        
         self.sim_model.summary()            
         print('sim_model was loaded OK')
