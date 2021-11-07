@@ -1,6 +1,7 @@
 import sys
 import tensorflow as tf
 import models.resnet as resnet
+import models.alexnet as alexnet
 import datasets.data as data
 import utils.configuration as conf
 import utils.imgproc as imgproc
