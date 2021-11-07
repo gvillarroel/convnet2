@@ -26,8 +26,8 @@ class SSearch :
         #loading classifier model
         #model = resnet.ResNet([3,4,6,3],[64,128,256,512], self.configuration.get_number_of_classes(), se_factor = 0)
         model = alexnet.AlexNetModel(self.configuration.get_number_of_classes())
-        #input_image = tf.keras.Input((self.input_shape[0], self.input_shape[1], self.input_shape[2]), name = 'input_image', tensor=tf.ones(shape=(self.input_shape[0], self.input_shape[1], self.input_shape[2])))     
-        input_image = tf.keras.Input(name = 'input_image', tensor=tf.ones(shape=(self.input_shape[0], self.input_shape[1], self.input_shape[2])))     
+        input_image = tf.keras.Input((self.input_shape[0], self.input_shape[1], self.input_shape[2]), name = 'input_image', tensor=tf.ones(shape=(1, self.input_shape[0], self.input_shape[1], self.input_shape[2])))     
+        #input_image = tf.keras.Input(name = 'input_image', tensor=tf.ones(shape=(self.input_shape[0], self.input_shape[1], self.input_shape[2])))     
         print(input_image)
         model(input_image)    
         model.summary()
