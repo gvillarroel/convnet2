@@ -11,7 +11,6 @@ To use train.py, you will require to set the following parameters :
 """
 import pathlib
 import sys
-sys.path.append(str(pathlib.Path().absolute()))
 import tensorflow as tf
 from models import simple
 from models import alexnet
@@ -75,7 +74,7 @@ if __name__ == '__main__' :
         save_freq = 'epoch',            
         )
     #save_freq = configuration.get_snapshot_steps())                
-    if configuration.get_model_name() == 'ANIMALS' :
+    if configuration.get_model_name() == 'SKETCH' :
         model = alexnet.AlexNetModel(configuration.get_number_of_classes())            
         process_fun = imgproc.process_sketch
     else:
