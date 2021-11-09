@@ -31,9 +31,11 @@ class SSearch :
         model.load_weights(self.configuration.get_checkpoint_file(), by_name = True, skip_mismatch = True)
         #create the sim-model with a customized layer    
         #you can change output_layer_name                
-        output_layer_name = 'batch_normalization_6'
-        output = model.get_layer(output_layer_name).output                
-        self.sim_model = tf.keras.Model(model.input, output)        
+        #output_layer_name = 'batch_normalization_6'
+        #output = model.get_layer(output_layer_name).output                
+        #self.sim_model = tf.keras.Model(model.input, output)        
+        model.layers.pop()
+        self.sim_model = model
         self.sim_model.summary()            
         print('sim_model was loaded OK')
         #defining process arch
