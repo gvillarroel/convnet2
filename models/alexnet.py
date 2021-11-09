@@ -74,7 +74,7 @@ class AlexNetModel(tf.keras.Model):
 
 class AlexNetModel_cut(tf.keras.Model):
     def __init__(self, number_of_classes):
-        super(AlexNetModel, self).__init__()
+        super(AlexNetModel_cut, self).__init__()
         #define layers which require parameters to be learned
         self.conv_1 = tf.keras.layers.Conv2D(96, (11,11), strides = 4, padding = 'valid',  kernel_initializer = 'he_normal')
         self.max_pool = tf.keras.layers.MaxPool2D((3,3), strides = 2, padding = 'valid')
