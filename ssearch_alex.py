@@ -24,7 +24,7 @@ class SSearch :
         self.mean_image = np.reshape(self.mean_image, self.input_shape)
        
         #loading classifier model
-        model = alexnet.AlexNetModel(self.configuration.get_number_of_classes())
+        model = alexnet.AlexNetModel_cut(self.configuration.get_number_of_classes())
         input_image = tf.keras.Input((self.input_shape[0], self.input_shape[1], self.input_shape[2]), name = 'input_image')     
         model(input_image)    
         model.summary()
@@ -34,7 +34,7 @@ class SSearch :
         #output_layer_name = 'batch_normalization_6'
         #output = model.get_layer(output_layer_name).output                
         #self.sim_model = tf.keras.Model(model.input, output)        
-        model.layers = model.layers[:-1]
+        
         self.sim_model = model
         self.sim_model.summary()            
         print('sim_model was loaded OK')
