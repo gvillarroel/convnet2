@@ -1,6 +1,6 @@
 import sys
+sys.path.append("/home/jsaavedr/Research/git/tensorflow-2/convnet2")
 import tensorflow as tf
-import models.resnet as resnet
 import models.alexnet as alexnet
 import datasets.data as data
 import utils.configuration as conf
@@ -24,24 +24,15 @@ class SSearch :
         self.mean_image = np.reshape(self.mean_image, self.input_shape)
        
         #loading classifier model
-        #model = resnet.ResNet([3,4,6,3],[64,128,256,512], self.configuration.get_number_of_classes(), se_factor = 0)
         model = alexnet.AlexNetModel(self.configuration.get_number_of_classes())
-        print((self.input_shape[0], self.input_shape[1], self.input_shape[2])) # (224, 224, 3)
-        input_image = tf.keras.Input((self.input_shape[0], self.input_shape[1], self.input_shape[2]), name = 'input_image', tensor=tf.ones(shape=(1, self.input_shape[0], self.input_shape[1], self.input_shape[2])))     
-        #input_image = tf.keras.Input(name = 'input_image', tensor=tf.ones(shape=(self.input_shape[0], self.input_shape[1], self.input_shape[2])))     
-        print(input_image)
+        input_image = tf.keras.Input((self.input_shape[0], self.input_shape[1], self.input_shape[2]), name = 'input_image')     
         model(input_image)    
         model.summary()
         model.load_weights(self.configuration.get_checkpoint_file(), by_name = True, skip_mismatch = True)
         #create the sim-model with a customized layer    
         #you can change output_layer_name                
-        output_layer_name = 'batch_normalization_6'
-        l = model.get_layer(output_layer_name)                
-        print(l.input_shape)
-        print(l.output_shape)
-        print(l.input)
-        print(l.output)
-        output = l.output                
+        output_layer_name = 'global_average_pooling2d'
+        output = model.get_layer(output_layer_name).output                
         self.sim_model = tf.keras.Model(model.input, output)        
         self.sim_model.summary()            
         print('sim_model was loaded OK')
