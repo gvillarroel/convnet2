@@ -34,7 +34,7 @@ class SSearch :
         #output_layer_name = 'batch_normalization_6'
         #output = model.get_layer(output_layer_name).output                
         #self.sim_model = tf.keras.Model(model.input, output)        
-        model.layers.pop()
+        model.layers = model.layers[:-1]
         self.sim_model = model
         self.sim_model.summary()            
         print('sim_model was loaded OK')
