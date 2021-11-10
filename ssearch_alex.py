@@ -198,6 +198,7 @@ if __name__ == '__main__' :
         ssearch.load_features()
         #fquery =  '/home/vision/smb-datasets/clothing-dataset/classifier_data/dress/1b550b68-e499-49dd-9.png'
         #fquery = '/home/vision/smb-datasets/missodd/queries/missodd-query-2.png'
+        results = []
         for i, fquery in enumerate(ssearch.filenames[:10]) :
             if i % 1000 == 0:
                 print('reading {}'.format(i))
@@ -210,19 +211,15 @@ if __name__ == '__main__' :
             # Calculo el mean average precision
             current_category = ssearch.categories[i]
             search_categories = ssearch.get_categories(idx)
-            largo = 10
             r_q = sum([ (cat==current_category) for cat in search_categories]) 
             sum_pr = sum([ sum([(cat==current_category) for cat in search_categories[:i]])  /(i+1) * (cat==current_category)  for i, cat in enumerate(search_categories)])
             # posición del primer relevante (precesion@1)
-            pos = search_categories.index(current_category) if current_category in search_categories else -1
+            pos = search_categories.index(current_category) + 1
             output_name = os.path.basename(fquery) + f"avp({(sum_pr/r_q):.4f})_pos({pos})_result.png"
             output_name = os.path.join(pargs.odir, output_name)
             io.imsave(output_name, image_r)
-            print('result saved at {}'.format(output_name)) 
-            print(search_categories)
-            print(sum_pr)
-            print("----")
-            print(r_q)
-            
+            results.append((current_category, (sum_pr/r_q), pos, [i+1 for i, cat in enumerate(search_categories) if cat == current_category] ))
+        pd_results = pd.DataFrame(results, columns=["category", "avp", "fpos", "allpos"])    
+        pd_results.to_csv(os.path.join(pargs.odir, "results.csv"))
         
         
