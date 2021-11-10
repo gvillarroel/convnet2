@@ -100,7 +100,7 @@ class SSearch :
         #idx_sorted = np.argsort(-sim)        
         idx_sorted = np.argsort(d)
         #return idx_sorted[:90]
-        return idx_sorted[1:91]
+        return idx_sorted[1:]
         #return idx_sorted[1:]
         
                                 
@@ -136,7 +136,7 @@ class SSearch :
         image_r = np.zeros((w,h,3), dtype = np.uint8) + 255
         x = 0
         y = 0
-        for i, filename in enumerate(filenames) :
+        for i, filename in enumerate(filenames[:90]) :
             pos = (i * w_i)
             x = pos % w
             y = np.int(np.floor(pos / w)) * h_i
