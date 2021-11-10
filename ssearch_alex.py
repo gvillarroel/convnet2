@@ -68,7 +68,7 @@ class SSearch :
     def load_catalog(self, catalog):
         df_files = pd.read_csv(f"{self.configuration.get_data_dir()}/test.txt", header=None, names=['file','category'], sep='\s+')
         self.filenames = [filename.strip() for filename in df_files.file.to_list()]
-        self.categories = [filename.strip() for filename in df_files.category.to_list()]
+        self.categories = [cat for cat in df_files.category.to_list()]
         self.data_size = len(self.filenames)    
             
     def get_filenames(self, idxs):
