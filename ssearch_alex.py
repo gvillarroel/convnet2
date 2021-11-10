@@ -213,7 +213,7 @@ if __name__ == '__main__' :
             largo = 10
             avp = sum([1 if cat==current_category else 0 for cat in search_categories[:largo]]) / largo
             # posición del primer relevante (precesion@1)
-            pos = search_categories.index(current_category)
+            pos = search_categories.index(current_category) if current_category in search_categories else -1
             output_name = os.path.basename(fquery) + f"avp({avp:.4f})_pos({pos})_result.png"
             output_name = os.path.join(pargs.odir, output_name)
             io.imsave(output_name, image_r)
