@@ -10,6 +10,7 @@ import skimage.transform as trans
 import os
 import argparse
 import numpy as np
+import pandas as pd
 
 class SSearch :
     def __init__(self, config_file, model_name):
@@ -187,5 +188,22 @@ if __name__ == '__main__' :
                 io.imsave(output_name, image_r)
                 print('result saved at {}'.format(output_name))
                 fquery = input('Query:')
+    if pargs.mode == 'search_all' :
+        ssearch.load_features()
+        #fquery =  '/home/vision/smb-datasets/clothing-dataset/classifier_data/dress/1b550b68-e499-49dd-9.png'
+        #fquery = '/home/vision/smb-datasets/missodd/queries/missodd-query-2.png'
+        for i, fquery in enumerate(ssearch.filenames) :
+            if i % 1000 == 0:
+                print('reading {}'.format(i))
+                sys.stdout.flush()
+            im_query = ssearch.read_image(fquery)
+            idx = ssearch.search(im_query)                
+            r_filenames = ssearch.get_filenames(idx)
+            r_filenames.insert(0, fquery)#           
+            image_r= ssearch.draw_result(r_filenames)
+            output_name = os.path.basename(fquery) + '_result.png'
+            output_name = os.path.join(pargs.odir, output_name)
+            io.imsave(output_name, image_r)
+            print('result saved at {}'.format(output_name)) 
         
         
