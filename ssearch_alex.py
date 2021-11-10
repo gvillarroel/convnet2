@@ -207,7 +207,7 @@ if __name__ == '__main__' :
             idx = ssearch.search(im_query)                
             r_filenames = ssearch.get_filenames(idx)
             r_filenames.insert(0, fquery)#           
-            image_r= ssearch.draw_result(r_filenames)
+            
             # Calculo el mean average precision
             current_category = ssearch.categories[i]
             search_categories = ssearch.get_categories(idx)
@@ -217,7 +217,8 @@ if __name__ == '__main__' :
             pos = search_categories.index(current_category) + 1
             output_name = os.path.basename(fquery) + f"avp({(sum_pr/r_q):.4f})_pos({pos})_result.png"
             output_name = os.path.join(pargs.odir, output_name)
-            io.imsave(output_name, image_r)
+            #image_r= ssearch.draw_result(r_filenames)
+            #io.imsave(output_name, image_r)
             results.append((current_category, (sum_pr/r_q), pos, [i+1 for i, cat in enumerate(search_categories) if cat == current_category] ))
             print(f"{i}/{ssearch.data_size}")
         pd_results = pd.DataFrame(results, columns=["category", "avp", "fpos", "allpos"])    
