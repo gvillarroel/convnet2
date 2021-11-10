@@ -66,12 +66,16 @@ class SSearch :
         print('features loaded ok')
         
     def load_catalog(self, catalog):
-        with open(catalog) as f_in :
-            self.filenames = [filename.strip() for filename in f_in ]
+        df_files = pd.read_csv(f"{self.configuration.get_data_dir()}/test.txt", header=None, names=['file','category'], sep='\s+')
+        self.filenames = [filename.strip() for filename in df_files.file.to_list()]
+        self.categories = [filename.strip() for filename in df_files.category.to_list()]
         self.data_size = len(self.filenames)    
             
     def get_filenames(self, idxs):
         return [self.filenames[i] for i in idxs]
+    
+    def get_categories(self, idxs):
+        return [self.categories[i] for i in idxs]
         
     def compute_features(self, image, expand_dims = False):
         image = image - self.mean_image
@@ -194,7 +198,7 @@ if __name__ == '__main__' :
         ssearch.load_features()
         #fquery =  '/home/vision/smb-datasets/clothing-dataset/classifier_data/dress/1b550b68-e499-49dd-9.png'
         #fquery = '/home/vision/smb-datasets/missodd/queries/missodd-query-2.png'
-        for i, fquery in enumerate(ssearch.filenames) :
+        for i, fquery in enumerate(ssearch.filenames[:10]) :
             if i % 1000 == 0:
                 print('reading {}'.format(i))
                 sys.stdout.flush()
@@ -203,7 +207,12 @@ if __name__ == '__main__' :
             r_filenames = ssearch.get_filenames(idx)
             r_filenames.insert(0, fquery)#           
             image_r= ssearch.draw_result(r_filenames)
-            output_name = os.path.basename(fquery) + '_result.png'
+            # Calculo el mean average precision
+            current_category = ssearch.categories[i]
+            largo = 10
+            avp = sum([1 if cat==current_category else 0 for cat in ssearch.get_categories[idx]]) / largo
+
+            output_name = os.path.basename(fquery) + f"avp({avp:.4f}_result.png"
             output_name = os.path.join(pargs.odir, output_name)
             io.imsave(output_name, image_r)
             print('result saved at {}'.format(output_name)) 
