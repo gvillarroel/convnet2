@@ -220,5 +220,9 @@ if __name__ == '__main__' :
             io.imsave(output_name, image_r)
             print('result saved at {}'.format(output_name)) 
             print(search_categories)
+            print(sum_pr)
+            print("----")
+            print(r_q)
+            
         
         
