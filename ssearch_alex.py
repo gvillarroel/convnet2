@@ -219,6 +219,7 @@ if __name__ == '__main__' :
             output_name = os.path.join(pargs.odir, output_name)
             io.imsave(output_name, image_r)
             results.append((current_category, (sum_pr/r_q), pos, [i+1 for i, cat in enumerate(search_categories) if cat == current_category] ))
+            print(f"{i}/{ssearch.data_size}")
         pd_results = pd.DataFrame(results, columns=["category", "avp", "fpos", "allpos"])    
         pd_results.to_csv(os.path.join(pargs.odir, "results.csv"))
         
