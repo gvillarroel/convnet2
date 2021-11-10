@@ -211,8 +211,8 @@ if __name__ == '__main__' :
             current_category = ssearch.categories[i]
             search_categories = ssearch.get_categories(idx)
             largo = 10
-            r_q = sum([1 if cat==current_category else 0 for cat in search_categories]) 
-            sum_pr = sum([1/(i+1) if cat==current_category else 0 for i, cat in enumerate(search_categories)]) / largo
+            r_q = sum([ (cat==current_category) for cat in search_categories]) 
+            sum_pr = sum([ sum([(cat==current_category) for cat in search_categories[:i]])  /(i+1) * (cat==current_category)  for i, cat in enumerate(search_categories)])
             # posición del primer relevante (precesion@1)
             pos = search_categories.index(current_category) if current_category in search_categories else -1
             output_name = os.path.basename(fquery) + f"avp({(sum_pr/r_q):.4f})_pos({pos})_result.png"
