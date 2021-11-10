@@ -209,10 +209,12 @@ if __name__ == '__main__' :
             image_r= ssearch.draw_result(r_filenames)
             # Calculo el mean average precision
             current_category = ssearch.categories[i]
+            search_categories = ssearch.get_categories(idx)
             largo = 10
-            avp = sum([1 if cat==current_category else 0 for cat in ssearch.get_categories(idx[:largo])]) / largo
-
-            output_name = os.path.basename(fquery) + f"avp({avp:.4f})_result.png"
+            avp = sum([1 if cat==current_category else 0 for cat in search_categories[:largo]]) / largo
+            # posición del primer relevante (precesion@1)
+            pos = search_categories.index(current_category)
+            output_name = os.path.basename(fquery) + f"avp({avp:.4f})_pos({pos})_result.png"
             output_name = os.path.join(pargs.odir, output_name)
             io.imsave(output_name, image_r)
             print('result saved at {}'.format(output_name)) 
