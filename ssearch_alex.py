@@ -219,5 +219,6 @@ if __name__ == '__main__' :
             output_name = os.path.join(pargs.odir, output_name)
             io.imsave(output_name, image_r)
             print('result saved at {}'.format(output_name)) 
+            print(search_categories)
         
         
