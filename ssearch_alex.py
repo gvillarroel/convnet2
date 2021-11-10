@@ -210,7 +210,7 @@ if __name__ == '__main__' :
             # Calculo el mean average precision
             current_category = ssearch.categories[i]
             largo = 10
-            avp = sum([1 if cat==current_category else 0 for cat in ssearch.get_categories[idx]]) / largo
+            avp = sum([1 if cat==current_category else 0 for cat in ssearch.get_categories(idx)]) / largo
 
             output_name = os.path.basename(fquery) + f"avp({avp:.4f}_result.png"
             output_name = os.path.join(pargs.odir, output_name)
