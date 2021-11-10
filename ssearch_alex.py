@@ -199,7 +199,7 @@ if __name__ == '__main__' :
         #fquery =  '/home/vision/smb-datasets/clothing-dataset/classifier_data/dress/1b550b68-e499-49dd-9.png'
         #fquery = '/home/vision/smb-datasets/missodd/queries/missodd-query-2.png'
         results = []
-        for i, fquery in enumerate(ssearch.filenames[:10]) :
+        for i, fquery in enumerate(ssearch.filenames) :
             if i % 1000 == 0:
                 print('reading {}'.format(i))
                 sys.stdout.flush()
