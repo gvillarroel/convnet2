@@ -95,7 +95,8 @@ class SSearch :
         d = np.sqrt(np.sum(np.square(self.features - q_fv[0]), axis = 1))
         #idx_sorted = np.argsort(-sim)        
         idx_sorted = np.argsort(d)
-        return idx_sorted[:90]
+        #return idx_sorted[:90]
+        return idx_sorted[1:91]
         #return idx_sorted[1:]
         
                                 
