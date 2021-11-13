@@ -90,18 +90,18 @@ class SSearch :
         data = data / np.transpose(norm)
         return data
  
-    def search(self, im_query):
+    def search(self, im_query, fun='eclu'):
         assert self.enable_search, 'search is not allowed'
         q_fv = self.compute_features(im_query, expand_dims = True)
-        #sim = np.matmul(self.normalize(self.features), np.transpose(self.normalize(q_fv)))
-        #sim = np.reshape(sim, (-1))
-        #it seems that Euclidean performs better than cosine
-        d = np.sqrt(np.sum(np.square(self.features - q_fv[0]), axis = 1))
-        #idx_sorted = np.argsort(-sim)        
-        idx_sorted = np.argsort(d)
-        #return idx_sorted[:90]
+        if fun=='cos':
+            sim = np.matmul(self.normalize(self.features), np.transpose(self.normalize(q_fv)))
+            sim = np.reshape(sim, (-1))
+            idx_sorted = np.argsort(-sim)
+        else:
+            #it seems that Euclidean performs better than cosine
+            d = np.sqrt(np.sum(np.square(self.features - q_fv[0]), axis = 1))
+            idx_sorted = np.argsort(d)
         return idx_sorted[1:]
-        #return idx_sorted[1:]
         
                                 
     def compute_features_from_catalog(self):
@@ -150,6 +150,7 @@ if __name__ == '__main__' :
     parser = argparse.ArgumentParser(description = "Similarity Search")        
     parser.add_argument("-config", type = str, help = "<str> configuration file", required = True)
     parser.add_argument("-name", type=str, help=" name of section in the configuration file", required = True)                
+    parser.add_argument("-fun", type=str, required=False, default="eclu", choices=["eclu", "cos"], help=" function to be used [cos, eclu]")
     parser.add_argument("-mode", type=str, choices = ['search', 'compute', 'search_all'], help=" mode of operation", required = True)
     parser.add_argument("-list", type=str,  help=" list of image to process", required = False)
     parser.add_argument("-odir", type=str,  help=" output dir", required = False, default = '.')
@@ -170,7 +171,7 @@ if __name__ == '__main__' :
                 filenames  = [ item.strip() for item in f_list]
             for fquery in filenames :
                 im_query = ssearch.read_image(fquery)
-                idx = ssearch.search(im_query)                
+                idx = ssearch.search(im_query, pargs.fun)                
                 r_filenames = ssearch.get_filenames(idx)
                 r_filenames.insert(0, fquery)#           
                 image_r= ssearch.draw_result(r_filenames)
