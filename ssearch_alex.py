@@ -12,6 +12,9 @@ import argparse
 import numpy as np
 import pandas as pd
 
+def es_relevante(categoria_query, categoria_resultado):
+    return categoria_query == categoria_resultado
+
 class SSearch :
     def __init__(self, config_file, model_name):
         
@@ -210,17 +213,16 @@ if __name__ == '__main__' :
             r_filenames.insert(0, fquery)#           
             
             # Calculo el mean average precision
-            current_category = ssearch.categories[i]
-            search_categories = ssearch.get_categories(idx)
-            r_q = sum([ (cat==current_category) for cat in search_categories]) 
-            sum_pr = sum([ sum([(cat==current_category) for cat in search_categories[:i]])  /(i+1) * (cat==current_category)  for i, cat in enumerate(search_categories)])
+            categoria_query = ssearch.categories[i]
+            categorias_resultado = np.array(ssearch.get_categories(idx))
+            pos = np.squeeze( np.argwhere( es_relevante(categoria_query, categoria_resultado) ) ) + 1
+            local_map = (np.arange(pos.size) / pos).sum() / pos.size
             # posición del primer relevante (precesion@1)
-            pos = search_categories.index(current_category) + 1
-            output_name = os.path.basename(fquery) + f"avp({(sum_pr/r_q):.4f})_pos({pos})_result.png"
-            output_name = os.path.join(pargs.odir, output_name)
+            #output_name = os.path.basename(fquery) + f"avp({local_map:.4f})_pos({pos[0]})_result.png"
+            #output_name = os.path.join(pargs.odir, output_name)
             #image_r= ssearch.draw_result(r_filenames)
             #io.imsave(output_name, image_r)
-            results.append((current_category, (sum_pr/r_q), pos, [i+1 for i, cat in enumerate(search_categories) if cat == current_category] ))
+            results.append((categoria_query,local_map,pos[0], pos))
             print(f"{i}/{ssearch.data_size}")
         pd_results = pd.DataFrame(results, columns=["category", "avp", "fpos", "allpos"])    
         pd_results.to_csv(os.path.join(pargs.odir, "results.csv"))
