@@ -183,7 +183,7 @@ if __name__ == '__main__' :
             fquery = input('Query:')
             while fquery != 'quit' :
                 im_query = ssearch.read_image(fquery)
-                idx = ssearch.search(im_query)
+                idx = ssearch.search(im_query, pargs.fun)
                 #print(idx)
                 r_filenames = ssearch.get_filenames(idx)
                 r_filenames.insert(0, fquery)
@@ -205,7 +205,7 @@ if __name__ == '__main__' :
                 print('reading {}'.format(i))
                 sys.stdout.flush()
             im_query = ssearch.read_image(fquery)
-            idx = ssearch.search(im_query)                
+            idx = ssearch.search(im_query, pargs.fun)                
             r_filenames = ssearch.get_filenames(idx)
             r_filenames.insert(0, fquery)#           
             
