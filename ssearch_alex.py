@@ -215,7 +215,7 @@ if __name__ == '__main__' :
             # Calculo el mean average precision
             categoria_query = ssearch.categories[i]
             categorias_resultado = np.array(ssearch.get_categories(idx))
-            pos = np.squeeze( np.argwhere( x == categoria_query ) )  + 1
+            pos = np.squeeze( np.argwhere( categorias_resultado == categoria_query ) )  + 1
             local_map = (np.arange(pos.size) / pos).sum() / pos.size
             # posición del primer relevante (precesion@1)
             #output_name = os.path.basename(fquery) + f"avp({local_map:.4f})_pos({pos[0]})_result.png"
